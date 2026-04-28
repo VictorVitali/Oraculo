@@ -15,6 +15,7 @@ public class JogoMain {
         o.prologoIntroducao();
 
         boolean perdeu = false;
+        o.loadLevel03();
 
         if (o.loadLevel01()) {
 

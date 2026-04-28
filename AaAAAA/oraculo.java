@@ -8,6 +8,7 @@ public class oraculo {
     String tentativasLevel03 = "";
     boolean vidaExtraPedida;
     boolean vidaExtraConcedida;
+    Monstro monstro = new Monstro();
 
     public oraculo() {
         nome = "Oraculo";
@@ -112,24 +113,25 @@ public class oraculo {
     }
 
     boolean loadLevel03() {
-        mostrarMensagem("Level 03", "Mini game final: digite a palavra WAR para vencer.");
-
-        while (guerreiro.qtdVidas > 0) {
-            String resposta = InOut.leString("Level 03\nVidas: " + guerreiro.qtdVidas
-                    + "\nDigite a palavra secreta (WAR):");
-
-
-            if (resposta != null && resposta.trim().equalsIgnoreCase("WAR")) {
-                mostrarMensagem("Level 03", "Parabens voce zerou!");
-                return true;
-            }
-
-            mostrarMensagem("Level 03", "Palavra errada. Voce perdeu 1 vida.");
-            perderUmaVida();
+        mostrarMensagem("Level 03", "Batalha final:");
+ 
+        String acao;
+        acao = "";
+        
+        while (!acao.equalsIgnoreCase("D") && !acao.equalsIgnoreCase("A")) {
+            acao = InOut.leString("O que fazer no turno? \nA = \n Ataque \n D = Defender");
         }
+        
+        while(true){
+           turno(acao);
+        }
+        
+        mostrarMensagem("deu certo", "mostrarMensagem");
 
         return false;
     }
+    
+    
 
     String RelatorioFimGame() {
         String relatorio = 
@@ -157,13 +159,7 @@ public class oraculo {
 
             String pedido = guerreiro.vidaExtra();
 
-            if (decidirVidaExtra(pedido)) {
-                guerreiro.ganharVidaExtra();
-                vidaExtraConcedida = true;
-                mostrarMensagem("Vida extra", "Pedido aceito. Voce ganhou 1 vida.");
-            } else {
-                mostrarMensagem("Vida extra", "Pedido recusado. Use mais de 5 palavras.");
-            }
+            decidirVidaExtra(pedido);
         }
     }
 
@@ -204,4 +200,19 @@ public class oraculo {
         System.out.println(texto);
         InOut.MsgDeInformacao(titulo, texto);
     }
+    
+    boolean turno(String Acao){
+
+        if("A".equals(Acao)){
+            if(monstro.acaoDoTurno() == 'A'){
+                mostrarMensagem("ATACOU", "ATACOU");
+            }else{
+                mostrarMensagem("DEFENDEU", "DEFENDEU");
+            }
+        }
+        else if("D".equals(Acao)){
+        }
+        return true;
+    }
+    
 }
