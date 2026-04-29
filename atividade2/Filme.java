@@ -16,30 +16,89 @@ public class Filme {
         this.genero = genero;
     }
 
-    void adicionarAtor() {
+    void alterarDados() {
+        titulo = InOut.leString("Novo titulo:");
+        duracao = InOut.leLong("Nova duracao em minutos:");
+        genero = InOut.leString("Novo genero:");
 
+        InOut.MsgDeInformacao("Sucesso", "Filme alterado!");
+    }
+
+    void adicionarAtor() {
         int id = InOut.leInt("ID do ator:");
         String nome = InOut.leString("Nome do ator:");
         String papel = InOut.leString("Papel:");
 
-        Ator a = new Ator(id, nome, papel);
-        atores.add(a);
+        Ator ator = new Ator(id, nome, papel);
+        atores.add(ator);
 
         InOut.MsgDeInformacao("Sucesso", "Ator adicionado!");
     }
 
-    void listarAtores() {
-
-        String texto = "Atores:\n";
-
-        for (Ator a : atores) {
-            texto += a + "\n";
+    Ator buscarAtor(int id) {
+        for (Ator ator : atores) {
+            if (ator.idAtor == id) {
+                return ator;
+            }
         }
 
-        InOut.MsgDeInformacao("Lista de Atores", texto);
+        return null;
+    }
+
+    void alterarAtor() {
+        if (atores.size() == 0) {
+            InOut.MsgDeAviso("Aviso", "Nao existe ator cadastrado.");
+            return;
+        }
+
+        int id = InOut.leInt(textoAtores() + "\nDigite o ID do ator que deseja alterar:");
+        Ator ator = buscarAtor(id);
+
+        if (ator == null) {
+            InOut.MsgDeErro("Erro", "Ator nao encontrado.");
+        } else {
+            ator.alterarDados();
+        }
+    }
+
+    void removerAtor() {
+        if (atores.size() == 0) {
+            InOut.MsgDeAviso("Aviso", "Nao existe ator cadastrado.");
+            return;
+        }
+
+        int id = InOut.leInt(textoAtores() + "\nDigite o ID do ator que deseja remover:");
+        Ator ator = buscarAtor(id);
+
+        if (ator == null) {
+            InOut.MsgDeErro("Erro", "Ator nao encontrado.");
+        } else {
+            atores.remove(ator);
+            InOut.MsgDeInformacao("Sucesso", "Ator removido!");
+        }
+    }
+
+    void listarAtores() {
+        InOut.MsgDeInformacao("Lista de Atores", textoAtores());
+    }
+
+    String textoAtores() {
+        String texto = "Atores do filme " + titulo + ":\n";
+
+        if (atores.size() == 0) {
+            texto += "Nenhum ator cadastrado.";
+            return texto;
+        }
+
+        for (Ator ator : atores) {
+            texto += ator + "\n";
+        }
+
+        return texto;
     }
 
     public String toString() {
-        return idFilme + " - " + titulo + " (" + genero + ")";
+        return "ID: " + idFilme + " | Titulo: " + titulo + " | Duracao: " + duracao
+                + " min | Genero: " + genero + " | Atores: " + atores.size();
     }
 }

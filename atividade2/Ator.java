@@ -10,7 +10,14 @@ public class Ator {
         this.papel = papel;
     }
 
+    void alterarDados() {
+        nome = InOut.leString("Novo nome do ator:");
+        papel = InOut.leString("Novo papel do ator:");
+
+        InOut.MsgDeInformacao("Sucesso", "Ator alterado!");
+    }
+
     public String toString() {
-        return idAtor + " - " + nome + " (" + papel + ")";
+        return "ID: " + idAtor + " | Nome: " + nome + " | Papel: " + papel;
     }
 }
