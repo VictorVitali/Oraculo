@@ -1,4 +1,5 @@
 public class ator {
+
     int idAtor;
     String nome, papel;
 
@@ -9,6 +10,6 @@ public class ator {
     }
 
     public String toString() {
-        return idAtor + "-" + nome + "(" + papel + ")";
+        return idAtor + " - " + nome + " (" + papel + ")";
     }
 }
