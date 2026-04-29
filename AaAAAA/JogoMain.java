@@ -1,5 +1,6 @@
 public class JogoMain {
     public static void main(String[] args) {
+           
         String nomeGuerreiro = InOut.leString("Digite o nome do Guerreiro:");
 
         if (nomeGuerreiro == null || nomeGuerreiro.trim().equals("")) {
@@ -15,7 +16,6 @@ public class JogoMain {
         o.prologoIntroducao();
 
         boolean perdeu = false;
-        o.loadLevel03();
 
         if (o.loadLevel01()) {
 

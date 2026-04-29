@@ -1,14 +1,18 @@
+import java.util.Random;
+
 public class oraculo {
     String nome;
     guerreiro guerreiro;
     int vidasPerdidas;
     int numeroSecretoLevel01;
+    int vidasPerdidasLevel03;
     String palpitesLevel01 = "";
     String respostasLevel02 = "";
     String tentativasLevel03 = "";
     boolean vidaExtraPedida;
     boolean vidaExtraConcedida;
     Monstro monstro = new Monstro();
+    Random random = new Random();
 
     public oraculo() {
         nome = "Oraculo";
@@ -116,22 +120,25 @@ public class oraculo {
         mostrarMensagem("Level 03", "Batalha final:");
  
         String acao;
+
+        while(monstro.qtdVidas > 0){
         acao = "";
-        
+
+
         while (!acao.equalsIgnoreCase("D") && !acao.equalsIgnoreCase("A")) {
-            acao = InOut.leString("O que fazer no turno? \nA = \n Ataque \n D = Defender");
+            acao = InOut.leString("O que fazer no turno? \n"
+                                + "A = Ataque \n "
+                                + "D = Defender\n"
+                                + "O monstro ainda tem " + monstro.qtdVidas + " vidas \n"
+                                + "Voce tem " + guerreiro.qtdVidas + " vidas\n"
+                                + "O monstro tem " + monstro.getChanceDeAtaque() + "% de chance de atacar");
         }
         
-        while(true){
-           turno(acao);
+            turno(acao);
         }
-        
-        mostrarMensagem("deu certo", "mostrarMensagem");
 
         return false;
     }
-    
-    
 
     String RelatorioFimGame() {
         String relatorio = 
@@ -143,7 +150,7 @@ public class oraculo {
                 + "Numero secreto do Level 01: " + numeroSecretoLevel01 + "\n"
                 + "Palpites do Level 01: " + textoOuNenhum(palpitesLevel01) + "\n"
                 + "Respostas do Level 02: " + textoOuNenhum(respostasLevel02) + "\n"
-                + "Tentativas do Level 03: " + textoOuNenhum(tentativasLevel03) + "\n"
+                + "Vidas perdidas no Boss Final: " + textoOuNenhum(tentativasLevel03) + "\n"
                 + "Vida extra concedida: " + (vidaExtraConcedida ? "Sim" : "Nao");
 
         mostrarMensagem("Relatorio", relatorio);
@@ -202,15 +209,24 @@ public class oraculo {
     }
     
     boolean turno(String Acao){
-
         if("A".equals(Acao)){
             if(monstro.acaoDoTurno() == 'A'){
-                mostrarMensagem("ATACOU", "ATACOU");
+                mostrarMensagem("ATACOU", "O mosntro também te ATACOU");
+                monstro.qtdVidas--;
+                guerreiro.perderVida();
+                guerreiro.perderVida();
+                vidasPerdidasLevel03 = vidasPerdidasLevel03 + 2;
             }else{
-                mostrarMensagem("DEFENDEU", "DEFENDEU");
+                if (random.nextBoolean()) {
+                    mostrarMensagem("DEFENDEU", "O monstro DEFENDEU seu ataque");
+                } else {
+                    mostrarMensagem("HIT", "O monstro tomou o dano.");
+                    monstro.qtdVidas--;
+                }
             }
         }
         else if("D".equals(Acao)){
+            mostrarMensagem("DEFENDEU", "Você DEFENDEU seu ataque");
         }
         return true;
     }

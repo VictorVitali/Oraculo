@@ -1,52 +1,54 @@
 import java.util.Random;
-import java.util.ArrayList;
 
 public class Monstro {
-    int qtdVidas;
-    ArrayList<Character> lastAction = new ArrayList<>();
+    int qtdVidas = 5;
+    char ultimaAcao = ' ';
+    int sequencia = 0;
     Random random = new Random();
 
-    public Monstro(){
+    public Monstro() {
         this.qtdVidas = 5;
     }
-    
-    public char acaoDoTurno(){
 
+    public char acaoDoTurno() {
+
+        if (sequencia == 0) {
+            ultimaAcao = random.nextBoolean() ? 'A' : 'D';
+            sequencia = 1;
+            return ultimaAcao;
+        }
+
+        int chanceRepetir = calcularChanceDeRepetir();
         int r = random.nextInt(100);
-        
-        if (lastAction.isEmpty()){
-            if (r >= 50) {
-                lastAction.add('A');
-                return 'A';
-            }else{
-                lastAction.add('D');
-                return 'D';
-            }
-        }
-        
-        char last = lastAction.get(lastAction.size() - 1);
-        int chance = lastAction.size() * 15;
 
-        if (last == 'D'){
-            chance = chance * -1;
-        }
-        if ((r + chance) >= 50) {
-            if (last == 'A') {
-                lastAction.add('A');
-            } else {
-                lastAction.clear();
-                lastAction.add('A');
-            }
-            return 'A';
-        }else{
-            if (last == 'D') {
-                lastAction.add('D');
-            } else {
-                lastAction.clear();
-                lastAction.add('D');
-            }
-            return 'D';
+        if (r < chanceRepetir) {
+            sequencia++;
+            return ultimaAcao;
+        } else {
+            ultimaAcao = (ultimaAcao == 'A') ? 'D' : 'A';
+            sequencia = 1;
+            return ultimaAcao;
         }
     }
+
+    private int calcularChanceDeRepetir() {
+        int baseChance = 50;
+        int penalty = Math.min(sequencia, 4) * 10;
+
+        return baseChance - penalty;
+    }
     
+    public int getChanceDeAtaque() {
+        if (sequencia == 0) {
+            return 50; // antes da primeira ação
+        }
+
+        int chanceRepetir = calcularChanceDeRepetir();
+
+        if (ultimaAcao == 'A') {
+            return chanceRepetir;
+        } else {
+            return 100 - chanceRepetir;
+        }
+    }
 }
