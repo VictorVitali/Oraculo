@@ -123,6 +123,18 @@ public class oraculo {
 
         while(monstro.qtdVidas > 0 && guerreiro.qtdVidas > 0){
         acao = "";
+        
+        InOut.leString("Explicação do combate: \n"
+                    + "O monstro tem 50% de chance de atacar ou defender.\n"
+                    + "Para cada ação repetida do monstro ele tem 10% de chance a menos de repetir aquela ação.\n"
+                    + "Exemplo:\n"
+                    + "Atacou 2 turnos seguidos: 50%  -10% - 10% = 30% de chance de atacar\n");
+
+        InOut.leString("Explicação do combate: \n"
+                    + "Caso você ataque e monstro tambem, você tomará 2 de dano e o monstro 1.\n"
+                    + "Caso você ataque e monstro defenda, tem 50% de chance de você dar dano.\n"
+                    + "Caso você defenda, você não leva dano.\n"
+        );
 
 
         while (!acao.equalsIgnoreCase("D") && !acao.equalsIgnoreCase("A")) {
@@ -216,6 +228,7 @@ public class oraculo {
             if(acaoMonstro == 'A'){
                 mostrarMensagem("ATACOU", "O mosntro também te ATACOU");
                 monstro.qtdVidas--;
+                perderUmaVida();
                 perderUmaVida();
                 vidasPerdidasLevel03 = vidasPerdidasLevel03 + 2;
             }else{
